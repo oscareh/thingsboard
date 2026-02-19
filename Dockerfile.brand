@@ -1,4 +1,9 @@
 ARG TB_BASE_TAG=4.2.1.1
 FROM thingsboard/tb-postgres:${TB_BASE_TAG}
 
-COPY docker/rootfs-min/ /
+USER root
+# Reemplaza el jar que arranca ThingsBoard por el boot jar compilado
+COPY docker/thingsboard.jar /usr/share/thingsboard/bin/thingsboard.jar
+RUN chown thingsboard:thingsboard /usr/share/thingsboard/bin/thingsboard.jar && chmod 555 /usr/share/thingsboard/bin/thingsboard.jar
+
+USER thingsboard
