@@ -26,14 +26,12 @@ jobs:
 
       - name: Copy .deb for Docker build
         run: |
-          echo "Listing application/target:"
-          ls -la application/target || true
           DEB_PATH="$(ls -1 application/target/*.deb 2>/dev/null | head -n 1)"
           if [ -z "$DEB_PATH" ]; then
             echo "ERROR: No .deb found in application/target/"
+            ls -la application/target || true
             exit 1
           fi
-          mkdir -p docker
           cp "$DEB_PATH" docker/thingsboard.deb
           echo "Using deb: $DEB_PATH"
 
