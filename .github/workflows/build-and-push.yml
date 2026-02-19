@@ -26,20 +26,29 @@ jobs:
 
       - name: Extract .deb to minimal rootfs for Docker build
         run: |
-          DEB_PATH="1000 4 5 20 24 27 30 46 122 135 136 142 999 1000 1001ls -1 application/target/*.deb 2>/dev/null | head -n 1)"
-          if [ -z "" ]; then
+          echo "Listing application/target:"
+          ls -la application/target || true
+
+          # En ThingsBoard suele generarse application/target/thingsboard.deb
+          DEB_PATH="application/target/thingsboard.deb"
+          if [ ! -f "$DEB_PATH" ]; then
+            DEB_PATH="$(ls -1 application/target/*.deb 2>/dev/null | head -n 1)"
+          fi
+
+          if [ -z "$DEB_PATH" ] || [ ! -f "$DEB_PATH" ]; then
             echo "ERROR: No .deb found in application/target/"
-            ls -la application/target || true
             exit 1
           fi
+
+          echo "Using deb: $DEB_PATH"
+          dpkg-deb -c "$DEB_PATH" | head -n 60
 
           rm -rf docker/rootfs docker/rootfs-min
           mkdir -p docker/rootfs docker/rootfs-min
 
-          dpkg-deb -x "" docker/rootfs
-          echo "Extracted: "
+          dpkg-deb -x "$DEB_PATH" docker/rootfs
 
-          # Copiamos solo lo necesario (evita conflictos con /lib, systemd, etc.)
+          # Copiamos solo lo necesario (evita conflictos tipo /lib symlink)
           if [ -d docker/rootfs/usr/share/thingsboard ]; then
             mkdir -p docker/rootfs-min/usr/share
             cp -a docker/rootfs/usr/share/thingsboard docker/rootfs-min/usr/share/
@@ -50,9 +59,8 @@ jobs:
             cp -a docker/rootfs/etc/thingsboard docker/rootfs-min/etc/
           fi
 
-          echo "rootfs-min top-level:";
-          find docker/rootfs-min -maxdepth 3 -type d | sort | head -n 100
-
+          echo "rootfs-min contents:"
+          find docker/rootfs-min -maxdepth 4 -type d | sort | head -n 200
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -67,7 +75,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push (amd64 + arm64)
+      - name: Build and push (arm64)
         uses: docker/build-push-action@v6
         with:
           context: .
