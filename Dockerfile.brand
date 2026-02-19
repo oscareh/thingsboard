@@ -1,5 +1,5 @@
 ARG TB_BASE_TAG=4.2.1.1
 FROM thingsboard/tb-postgres:${TB_BASE_TAG}
 
-# Copiamos el filesystem extraído del .deb (generado en CI)
-COPY docker/rootfs/ /
+# Copiamos SOLO el filesystem mínimo generado en CI
+COPY docker/rootfs-min/ /

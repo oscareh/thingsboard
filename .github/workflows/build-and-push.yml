@@ -24,20 +24,35 @@ jobs:
       - name: Build ThingsBoard artifacts
         run: mvn -B clean install -DskipTests -Dlicense.skip=true
 
-      - name: Extract .deb to rootfs for Docker build
+      - name: Extract .deb to minimal rootfs for Docker build
         run: |
-          DEB_PATH="$(ls -1 application/target/*.deb 2>/dev/null | head -n 1)"
-          if [ -z "$DEB_PATH" ]; then
+          DEB_PATH="1000 4 5 20 24 27 30 46 122 135 136 142 999 1000 1001ls -1 application/target/*.deb 2>/dev/null | head -n 1)"
+          if [ -z "" ]; then
             echo "ERROR: No .deb found in application/target/"
             ls -la application/target || true
             exit 1
           fi
 
-          rm -rf docker/rootfs
-          mkdir -p docker/rootfs
-          dpkg-deb -x "$DEB_PATH" docker/rootfs
-          echo "Extracted: $DEB_PATH"
-          ls -la docker/rootfs | head
+          rm -rf docker/rootfs docker/rootfs-min
+          mkdir -p docker/rootfs docker/rootfs-min
+
+          dpkg-deb -x "" docker/rootfs
+          echo "Extracted: "
+
+          # Copiamos solo lo necesario (evita conflictos con /lib, systemd, etc.)
+          if [ -d docker/rootfs/usr/share/thingsboard ]; then
+            mkdir -p docker/rootfs-min/usr/share
+            cp -a docker/rootfs/usr/share/thingsboard docker/rootfs-min/usr/share/
+          fi
+
+          if [ -d docker/rootfs/etc/thingsboard ]; then
+            mkdir -p docker/rootfs-min/etc
+            cp -a docker/rootfs/etc/thingsboard docker/rootfs-min/etc/
+          fi
+
+          echo "rootfs-min top-level:";
+          find docker/rootfs-min -maxdepth 3 -type d | sort | head -n 100
+
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
