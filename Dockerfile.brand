@@ -1,7 +1,5 @@
 ARG TB_BASE_TAG=4.2.1.1
 FROM thingsboard/tb-postgres:${TB_BASE_TAG}
 
-COPY docker/thingsboard.deb /tmp/thingsboard.deb
-
-# Extrae el .deb sin ejecutar scripts postinst (más seguro en Docker builds)
-RUN dpkg-deb -x /tmp/thingsboard.deb / && rm -f /tmp/thingsboard.deb
+# Copiamos el filesystem extraído del .deb (generado en CI)
+COPY docker/rootfs/ /

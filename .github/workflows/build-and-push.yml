@@ -24,7 +24,7 @@ jobs:
       - name: Build ThingsBoard artifacts
         run: mvn -B clean install -DskipTests -Dlicense.skip=true
 
-      - name: Copy .deb for Docker build
+      - name: Extract .deb to rootfs for Docker build
         run: |
           DEB_PATH="$(ls -1 application/target/*.deb 2>/dev/null | head -n 1)"
           if [ -z "$DEB_PATH" ]; then
@@ -32,8 +32,12 @@ jobs:
             ls -la application/target || true
             exit 1
           fi
-          cp "$DEB_PATH" docker/thingsboard.deb
-          echo "Using deb: $DEB_PATH"
+
+          rm -rf docker/rootfs
+          mkdir -p docker/rootfs
+          dpkg-deb -x "$DEB_PATH" docker/rootfs
+          echo "Extracted: $DEB_PATH"
+          ls -la docker/rootfs | head
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -54,7 +58,7 @@ jobs:
           context: .
           file: ./Dockerfile.brand
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           tags: ghcr.io/${{ github.repository_owner }}/tb-postgres-brand:4.2
           build-args: |
             TB_BASE_TAG=4.2.1.1
