@@ -20,7 +20,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>toolsthings - Test Message</title>
+<title>toolsthings - Mensaje de Test</title>
 
 
 <style type="text/css">
