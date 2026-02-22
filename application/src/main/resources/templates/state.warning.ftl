@@ -22,7 +22,7 @@
 <head>
 	<meta name="viewport" content="width=device-width"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<title>toolsthings - Api Usage State</title>
+	<title>toolsthings - Estado de uso de la API</title>
 
 
 	<style type="text/css">
@@ -113,12 +113,12 @@
 					<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #348eda; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0px; padding: 0px; height: 110px;" valign="top"><img src="https://media.thingsboard.io/email/head.png" alt="" width="598" height="91" /></td>
 				</tr>
 				<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 16px; margin: 0;">
-					<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #000000; box-sizing: border-box; font-size: 16px; margin: 0px; padding: 0px 32px; height: 66px; vertical-align: middle;" valign="middle"><strong>Warning:</strong> your ThingsBoard account feature may be disabled soon</td>
+					<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #000000; box-sizing: border-box; font-size: 16px; margin: 0px; padding: 0px 32px; height: 66px; vertical-align: middle;" valign="middle"><strong>Advertencia:</strong> es posible que la función de su cuenta de toolsthings se desactive próximamente.</td>
 				</tr>
 				<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; line-height: 24px; margin: 0;">
 					<td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0px; padding: 0px 32px; height: 93px; vertical-align: top;" valign="top">
 						<div style="padding: 16px; margin-bottom: 24px; border: solid 2px #F2994A; border-radius: 6px; background: rgba(242, 153, 74, 0.05);"><img style="vertical-align: middle; padding-right: 6px;" src="https://media.thingsboard.io/email/warning.png" alt="" width="20" height="20" />
-							<div style="display: inline; vertical-align: middle;">ThingsBoard has already&nbsp;${apiValueLabel}.<br />${apiFeature} will be <strong>disabled</strong> for your account once the limit will be reached.</div>
+							<div style="display: inline; vertical-align: middle;">toolsthings ya ha&nbsp;${apiValueLabel}.<br />${apiFeature} will be <strong>disabled</strong> for your account once the limit will be reached.</div>
 						</div>
 					</td>
 				</tr>
