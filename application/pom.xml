@@ -432,6 +432,8 @@
                 <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
+                    <include>**/*.ftl</include>
+                    <include>**/*.yml</include>
                     <include>thingsboard.yml</include>
                 </includes>
             </resource>

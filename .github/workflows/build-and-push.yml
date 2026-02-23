@@ -23,6 +23,13 @@ jobs:
 
       - name: Build ThingsBoard artifacts
         run: mvn -B clean install -DskipTests -Dlicense.skip=true
+        
+      - name: Verify templates in JAR
+        run: |
+          JAR_FILE=$(ls application/target/*-boot.jar | head -n1)
+          echo "Checking JAR: $JAR_FILE"
+          unzip -l $JAR_FILE | grep "activation.ftl"
+          unzip -p $JAR_FILE BOOT-INF/classes/templates/activation.ftl | head -10
 
       - name: Copy boot jar for Docker build
         run: |
